@@ -1,0 +1,26 @@
+package utils
+
+var (
+	IdVerify                  = Rules{"ID": {NotEmpty()}}
+	ApiVerify                 = Rules{"Path": {NotEmpty()}, "Description": {NotEmpty()}, "ApiGroup": {NotEmpty()}, "Method": {NotEmpty()}}
+	MenuVerify                = Rules{"Path": {NotEmpty()}, "ParentId": {NotEmpty()}, "Name": {NotEmpty()}, "Component": {NotEmpty()}, "Sort": {Ge("0")}}
+	MenuMetaVerify            = Rules{"Title": {NotEmpty()}}
+	LoginVerify               = Rules{"CaptchaId": {NotEmpty()}, "Captcha": {NotEmpty()}, "Username": {NotEmpty()}, "Password": {NotEmpty()}}
+	RegisterVerify            = Rules{"Username": {NotEmpty()}, "NickName": {NotEmpty()}, "Password": {NotEmpty()}, "AuthorityId": {NotEmpty()}}
+	PageInfoVerify            = Rules{"Page": {NotEmpty()}, "PageSize": {NotEmpty()}}
+	CustomerVerify            = Rules{"CustomerName": {NotEmpty()}, "CustomerPhoneData": {NotEmpty()}}
+	AutoCodeVerify            = Rules{"Abbreviation": {NotEmpty()}, "StructName": {NotEmpty()}, "PackageName": {NotEmpty()}, "Fields": {NotEmpty()}}
+	AuthorityVerify           = Rules{"AuthorityId": {NotEmpty()}, "AuthorityName": {NotEmpty()}, "ParentId": {NotEmpty()}}
+	AuthorityIdVerify         = Rules{"AuthorityId": {NotEmpty()}}
+	OldAuthorityVerify        = Rules{"OldAuthorityId": {NotEmpty()}}
+	ChangePasswordVerify      = Rules{"Password": {NotEmpty()}, "NewPassword": {NotEmpty()}}
+	SetUserAuthorityVerify    = Rules{"UUID": {NotEmpty()}, "AuthorityId": {NotEmpty()}}
+	CRegisterVerify           = Rules{"Username": {NotEmpty()}, "NickName": {NotEmpty()}, "Password": {NotEmpty()}}
+	CLoginVerify              = Rules{"Username": {NotEmpty()}, "Password": {NotEmpty()}}
+	NewBookmarkVerify         = Rules{"Domain": {NotEmpty()}, "Title": {NotEmpty()}}
+	UpdateBookmarkVerify      = Rules{"Link": {NotEmpty()}, "Title": {NotEmpty()}, "MSeaEngineId": {NotEmpty()}}
+	DeleteBookmarkVerify      = Rules{"MSeaEngineId": {NotEmpty()}}
+	NewBookmarkGroupVerify    = Rules{"GroupName": {NotEmpty()}}
+	UpdateBookmarkGroupVerify = Rules{"GSeaEngineId": {NotEmpty()}}
+	GetWebInfoVerify          = Rules{"Url": {NotEmpty()}}
+)
