@@ -9,12 +9,11 @@ import (
 	"github.com/siuvlqnm/bookmark/utils"
 )
 
-func GetBookMarkGroupList(userId uint, where request.GetGetBookmarkGroup) (err error, list interface{}) {
-
-	db := global.GVA_DB.Model(&model.CusBookmarkGroup{})
-	var groupList []model.CusBookmarkGroup
-	err = db.Where("cus_user_id = ? AND is_archive = ?", userId, where.IsArchive).Order("id desc").Find(&groupList).Error
-	return err, groupList
+func GetBookmarkGroupList(userId uint, where request.GetGetBookmarkGroup) (err error, list interface{}) {
+	var allGroup []model.CusBookmarkGroup
+	err = global.GVA_DB.Where("cus_user_id = ? AND is_archive = ?", userId, where.IsArchive).Order("id desc").Find(&allGroup).Error
+	list = utils.GenerateTree(model.CusBookmarkGroups.ConvertToINodeArray(allGroup), nil)
+	return
 }
 
 func CreateBookmarkGroup(group model.CusBookmarkGroup) (err error, g *model.CusBookmarkGroup) {

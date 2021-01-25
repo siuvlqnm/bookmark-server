@@ -14,7 +14,7 @@ import (
 func GetBookmarkGroupList(c *gin.Context) {
 	var g request.GetGetBookmarkGroup
 	_ = c.ShouldBindQuery(&g)
-	if err, list := service.GetBookMarkGroupList(getUserID(c), g); err != nil {
+	if err, list := service.GetBookmarkGroupList(getUserID(c), g); err != nil {
 		global.GVA_LOG.Error("获取失败", zap.Any("err", err))
 		response.FailWithMessage("获取失败", c)
 		return
