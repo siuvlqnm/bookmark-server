@@ -1,6 +1,8 @@
 package utils
 
-import "sort"
+import (
+	"sort"
+)
 
 // Tree 统一定义菜单树的数据结构，也可以自定义添加其他字段
 type Tree struct {
@@ -115,7 +117,7 @@ func recursiveTree(tree *Tree, nodes, selectedNodes []INode) {
 func FindRelationNode(nodes, allNodes []INode) (respNodes []INode) {
 	nodeMap := make(map[int]INode)
 	for _, v := range nodes {
-		recursiveFindRelationNode(nodeMap, allNodes, v, 0)
+		recursiveFindRelationNode(nodeMap, allNodes, v, 2)
 	}
 
 	for _, v := range nodeMap {

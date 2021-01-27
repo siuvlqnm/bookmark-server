@@ -9,9 +9,10 @@ import (
 func InitCusBookmarkGroupRouter(Router *gin.RouterGroup) {
 	BookmarkGroupRouer := Router.Group("c").Use(middleware.OperationRecord())
 	{
-		BookmarkGroupRouer.GET("/folder/list", cus.GetBookmarkGroupList)
+		BookmarkGroupRouer.GET("/folder/list/all", cus.GetAllBookmarkGroup)
 		BookmarkGroupRouer.POST("/folder/new", cus.CreateNewGroup)
 		BookmarkGroupRouer.PUT("/folder/update", cus.UpdateBookmarkGroup)
 		BookmarkGroupRouer.DELETE("/folder/delete", cus.DeleteBookmarkGroup)
+		BookmarkGroupRouer.GET("/g/:gSeaEngineId", cus.GetBookmarkGroupWithBookmark)
 	}
 }

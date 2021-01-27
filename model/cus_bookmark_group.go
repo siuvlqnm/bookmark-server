@@ -9,13 +9,13 @@ type CusBookmarkGroup struct {
 	global.GVA_MODEL
 	CusUserId     uint               `json:"-"`
 	GSeaEngineId  uint32             `json:"gSeaEngineId"`
-	GShareId      uint32             `json:"gShareId"`
-	GroupParentId int                `json:"groupParentId"`
+	GroupParentId int                `json:"-"`
 	GroupName     string             `json:"groupName"`
 	GroupIcon     string             `json:"groupIcon"`
+	Sort          int                `json:"-"`
 	IsArchive     bool               `json:"isArchive"`
-	IsShare       bool               `json:"isShare"`
 	Children      []CusBookmarkGroup `json:"children" gorm:"-"`
+	Bookmark      []CusBookmark      `json:"bookmark" gorm:"foreignKey:CusGroupId"`
 }
 
 // region 实现ITree 所有接口
@@ -37,7 +37,7 @@ func (g CusBookmarkGroup) GetData() interface{} {
 
 func (g CusBookmarkGroup) IsRoot() bool {
 	// 这里通过FatherId等于0 或者 FatherId等于自身Id表示顶层根节点
-	return g.GroupParentId == 0
+	return g.GroupParentId == 0 || g.GroupParentId == int(g.ID)
 }
 
 // endregion

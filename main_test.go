@@ -66,10 +66,9 @@ func TestGenerateTree(t *testing.T) {
 
 	// 生成完全树
 
-	resp := utils.GenerateTree(SystemMenus.ConvertToINodeArray(allMenu), nil)
+	// resp := utils.GenerateTree(SystemMenus.ConvertToINodeArray(allMenu), nil)
 	// bytes, _ := json.MarshalIndent(resp, "", "\t")
-	t.Log(resp)
-	//fmt.Println(string(pretty.Color(pretty.PrettyOptions(bytes, pretty.DefaultOptions), nil)))
+	// t.Log(resp)
 
 	// 模拟选中 '资产' 菜单
 	// selectedNode := []SystemMenu{allMenu[2]}
@@ -78,10 +77,13 @@ func TestGenerateTree(t *testing.T) {
 	//fmt.Println(string(pretty.Color(pretty.PrettyOptions(bytes, pretty.DefaultOptions), nil)))
 
 	// 模拟从数据库中查询出 '设备'
-	// device := []SystemMenu{allMenu[5]}
+	device := []SystemMenu{allMenu[2]}
+	for i := 0; i < len(device); i++ {
+		device[0].FatherId = 0
+	}
+	t.Log(device)
 	// 查询 设备 的所有父节点
-	// respNodes := utils.FindRelationNode(SystemMenus.ConvertToINodeArray(device), SystemMenus.ConvertToINodeArray(allMenu))
-	// resp = utils.GenerateTree(respNodes, nil)
-	// bytes, _ = json.Marshal(resp)
-	// fmt.Println(string(pretty.Color(pretty.PrettyOptions(bytes, pretty.DefaultOptions), nil)))
+	respNodes := utils.FindRelationNode(SystemMenus.ConvertToINodeArray(device), SystemMenus.ConvertToINodeArray(allMenu))
+	resp := utils.GenerateTree(respNodes, nil)
+	t.Log(resp)
 }
