@@ -42,3 +42,44 @@ func GetWebInfo(c *gin.Context) {
 		return
 	}
 }
+
+// func GetWebInfos(c *gin.Context) {
+// 	var u request.Website
+// 	_ = c.ShouldBindJSON(&u)
+
+// 	if err := utils.Verify(u, utils.GetWebInfoVerify); err != nil {
+// 		response.FailWithMessage(err.Error(), c)
+// 		return
+// 	}
+
+// 	err, p := utils.ParseUrl(u.Url)
+// 	if err != nil {
+// 		response.FailWithMessage(err.Error(), c)
+// 		return
+// 	}
+
+// 	websiteInfo := make(map[string]interface{})
+// 	_, err = utils.GetSetValue("website", p.Domain)
+// 	if err == nil {
+// 		val, _ := utils.GetHashValue("website", p.Domain)
+// 		response.OkWithData(response.WebsiteResponse{TargetUrl: p.TargetUrl, Protocol: val["protocol"], Domain: val["domain"], Path: p.Path, Query: p.Query, Title: val["title"], Description: val["description"]}, c)
+// 		return
+// 	}
+
+// 	_, gwi := utils.GetWebInfo(u.Url)
+// 	websiteInfo["protocol"] = p.Protocol
+// 	websiteInfo["domain"] = p.Domain
+// 	websiteInfo["title"] = gwi.Title
+// 	websiteInfo["description"] = gwi.Description
+// 	utils.SetHashValue("website", p.Domain, websiteInfo)
+
+// 	website := &model.CusWebsite{Protocol: p.Protocol, Domain: p.Domain, Title: gwi.Title, Description: gwi.Description}
+// 	err, _ = service.GetWebSite(p.Domain)
+// 	if err != nil {
+// 		service.CreateWebSite(website)
+// 	} else {
+// 		service.UpdateWebSite(website)
+// 	}
+// 	response.OkWithData(response.WebsiteResponse{TargetUrl: p.TargetUrl, Protocol: p.Protocol, Domain: p.Domain, Path: p.Path, Query: p.Query, Title: gwi.Title, Description: gwi.Description}, c)
+// 	return
+// }

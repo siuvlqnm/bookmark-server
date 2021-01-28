@@ -8,5 +8,5 @@ type CusWebsite struct {
 	Domain      string `json:"domain"`
 	Icon        string `json:"icon"`
 	Title       string `json:"title"`
-	Description string `json:"description"`
+	Description string `json:"description" gorm:"type:varchar(300)"`
 }

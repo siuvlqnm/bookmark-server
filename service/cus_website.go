@@ -24,3 +24,8 @@ func GetWebSite(domain string) (err error, w *model.CusWebsite) {
 	}
 	return err, &website
 }
+
+func UpdateWebSite(w *model.CusWebsite) (err error, webInfo *model.CusWebsite) {
+	err = global.GVA_DB.Where("domain = ?", w.Domain).Save(&webInfo).Error
+	return
+}

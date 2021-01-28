@@ -7,7 +7,7 @@ import (
 )
 
 func InitCusWebsiteRouter(Router *gin.RouterGroup) {
-	UserRouter := Router.Group("c").Use(middleware.OperationRecord())
+	UserRouter := Router.Group("website").Use(middleware.OperationRecord())
 	{
 		UserRouter.POST("webInfo", cus.GetWebInfo)
 	}

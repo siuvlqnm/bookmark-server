@@ -17,7 +17,7 @@ func ParseUrl(link string) (err error, I *UrlInfo) {
 	if err != nil {
 		return err, I
 	}
-	targetUrl := u.Scheme + "://" + u.Host + u.Path + "?" + u.RawQuery
+	targetUrl := link
 	I = &UrlInfo{TargetUrl: targetUrl, Protocol: u.Scheme, Domain: u.Host, Path: u.Path, Query: u.RawQuery}
 	return err, I
 }

@@ -46,7 +46,10 @@ func CreateNewGroup(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	group.CusUserId = getUserID(c)
+	userId := getUserID(c)
+	group.CusUserId = userId
+	sort := service.GetBookmarkGroupSort(userId, group)
+	group.Sort = sort + 1
 	err, cbg := service.CreateBookmarkGroup(group)
 	if err != nil {
 		global.GVA_LOG.Error("添加失败", zap.Any("err", err))
@@ -89,9 +92,6 @@ func DeleteBookmarkGroup(c *gin.Context) {
 	}
 	response.OkWithMessage("删除成功", c)
 }
-
-// https://blog.csdn.net/weixin_43272286/article/details/113029245
-// https://www.jianshu.com/p/9ee708e43ebf
 
 func SetBookmarkGroupSort(c *gin.Context) {
 	var s request.SetGroupSort

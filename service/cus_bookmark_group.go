@@ -89,3 +89,8 @@ func SetBookmarkGroupSort(userId uint, s request.SetGroupSort) (err error) {
 	err = global.GVA_DB.Model(&g).Where("g_sea_engine_id = ? AND cus_user_id = ?", s.G, userId).Update("sort", s.Y).Error
 	return
 }
+
+func GetBookmarkGroupSort(userId uint, g model.CusBookmarkGroup) (sort int) {
+	global.GVA_DB.Select("sort").Where("group_parent_id = ? AND cus_user_id = ?", g.GroupParentId, userId).Order("sort DESC").Take(&g)
+	return g.Sort
+}

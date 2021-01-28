@@ -7,12 +7,12 @@ import (
 )
 
 func InitCusBookmarkRouter(Router *gin.RouterGroup) {
-	BookmarkRouter := Router.Group("c").Use(middleware.OperationRecord())
+	BookmarkRouter := Router.Group("bookmark").Use(middleware.OperationRecord())
 	{
-		BookmarkRouter.POST("/bookmark/new", cus.CreateBookmark)
-		BookmarkRouter.POST("/bookmark/list", cus.GetBookmarkList)
-		BookmarkRouter.PUT("/bookmark/update", cus.UpdateBookmark)
-		BookmarkRouter.DELETE("/bookmark/delete", cus.DeleteBookmark)
-		BookmarkRouter.PUT("/bookmark/updateToStar", cus.UpdateToStar)
+		BookmarkRouter.POST("new", cus.CreateBookmark)
+		BookmarkRouter.POST("list", cus.GetBookmarkList)
+		BookmarkRouter.PUT("update", cus.UpdateBookmark)
+		BookmarkRouter.DELETE("delete", cus.DeleteBookmark)
+		BookmarkRouter.PUT("updateToStar", cus.UpdateToStar)
 	}
 }
