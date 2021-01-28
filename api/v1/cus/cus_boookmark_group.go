@@ -47,9 +47,6 @@ func CreateNewGroup(c *gin.Context) {
 		return
 	}
 	group.CusUserId = getUserID(c)
-	if group.GroupParentId != 0 {
-		group.GroupParentId = service.GetGroupIdByGSeaEngineId(uint32(group.GroupParentId))
-	}
 	err, cbg := service.CreateBookmarkGroup(group)
 	if err != nil {
 		global.GVA_LOG.Error("添加失败", zap.Any("err", err))
@@ -67,9 +64,6 @@ func UpdateBookmarkGroup(c *gin.Context) {
 	if err := utils.Verify(u, utils.UpdateBookmarkGroupVerify); err != nil {
 		response.FailWithMessage(err.Error(), c)
 		return
-	}
-	if u.GroupParentId != 0 {
-		u.GroupParentId = service.GetGroupIdByGSeaEngineId(uint32(u.GroupParentId))
 	}
 	err := service.UpdateBookmarkGroup(&u)
 	if err != nil {
@@ -94,4 +88,21 @@ func DeleteBookmarkGroup(c *gin.Context) {
 		return
 	}
 	response.OkWithMessage("删除成功", c)
+}
+
+// https://blog.csdn.net/weixin_43272286/article/details/113029245
+// https://www.jianshu.com/p/9ee708e43ebf
+
+func SetBookmarkGroupSort(c *gin.Context) {
+	var s request.SetGroupSort
+	_ = c.ShouldBindJSON(&s)
+	userId := getUserID(c)
+	err := service.SetBookmarkGroupSort(userId, s)
+	if err != nil {
+		global.GVA_LOG.Error("排序失败", zap.Any("err", err))
+		response.FailWithMessage("排序失败", c)
+		return
+	}
+	response.OkWithMessage("排序成功", c)
+	return
 }

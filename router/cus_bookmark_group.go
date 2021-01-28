@@ -13,6 +13,7 @@ func InitCusBookmarkGroupRouter(Router *gin.RouterGroup) {
 		BookmarkGroupRouer.POST("/folder/new", cus.CreateNewGroup)
 		BookmarkGroupRouer.PUT("/folder/update", cus.UpdateBookmarkGroup)
 		BookmarkGroupRouer.DELETE("/folder/delete", cus.DeleteBookmarkGroup)
-		BookmarkGroupRouer.GET("/g/:gSeaEngineId", cus.GetBookmarkGroupWithBookmark)
+		BookmarkGroupRouer.GET("/folders/:gSeaEngineId", cus.GetBookmarkGroupWithBookmark)
+		BookmarkGroupRouer.PUT("/folder/sort", cus.SetBookmarkGroupSort)
 	}
 }

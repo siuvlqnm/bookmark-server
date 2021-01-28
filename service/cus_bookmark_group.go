@@ -7,6 +7,7 @@ import (
 	"github.com/siuvlqnm/bookmark/model"
 	"github.com/siuvlqnm/bookmark/model/request"
 	"github.com/siuvlqnm/bookmark/utils"
+	"gorm.io/gorm"
 )
 
 func GetAllBookmarkGroup(userId uint, where request.GetGetBookmarkGroup) (err error, list interface{}) {
@@ -18,7 +19,7 @@ func GetAllBookmarkGroup(userId uint, where request.GetGetBookmarkGroup) (err er
 	} else {
 		db = db.Where("is_archive = ?", false)
 	}
-	err = db.Order("id desc").Find(&allGroup).Error
+	err = db.Order("sort ASC").Find(&allGroup).Error
 	list = utils.GenerateTree(model.CusBookmarkGroups.ConvertToINodeArray(allGroup), nil)
 	return
 }
@@ -30,7 +31,7 @@ func GetBookmarkGroup(GSeaEngineId uint32) (err error, list interface{}) {
 	for i := 0; i < len(g); i++ {
 		g[0].GroupParentId = 0
 	}
-	err = global.GVA_DB.Preload("Bookmark").Find(&allGroup).Error
+	err = global.GVA_DB.Preload("Bookmark").Order("sort ASC").Find(&allGroup).Error
 	respNodes := utils.FindRelationNode(model.CusBookmarkGroups.ConvertToINodeArray(g), model.CusBookmarkGroups.ConvertToINodeArray(allGroup))
 	list = utils.GenerateTree(respNodes, nil)
 	return err, list
@@ -76,4 +77,15 @@ func GetGroupIdByGSeaEngineId(GSeaEngineId uint32) (groupId int) {
 	}
 	id, _ := strconv.Atoi(val)
 	return id
+}
+
+func SetBookmarkGroupSort(userId uint, s request.SetGroupSort) (err error) {
+	var g model.CusBookmarkGroup
+	if s.X-s.Y > 0 {
+		err = global.GVA_DB.Debug().Model(&g).Where("sort >= ? AND sort < ? AND group_parent_id = ? AND cus_user_id = ?", s.Y, s.X, s.F, userId).UpdateColumn("sort", gorm.Expr("sort + ?", 1)).Error
+	} else {
+		err = global.GVA_DB.Debug().Model(&g).Where("sort > ? AND sort <= ? AND group_parent_id = ? AND cus_user_id = ?", s.X, s.Y, s.F, userId).UpdateColumn("sort", gorm.Expr("sort - ?", 1)).Error
+	}
+	err = global.GVA_DB.Model(&g).Where("g_sea_engine_id = ? AND cus_user_id = ?", s.G, userId).Update("sort", s.Y).Error
+	return
 }
