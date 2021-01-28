@@ -14,7 +14,7 @@ type CusBookmarkGroup struct {
 	GroupIcon     string        `json:"groupIcon"`
 	Sort          int           `json:"-"`
 	IsArchive     bool          `json:"isArchive"`
-	Bookmark      []CusBookmark `json:"bookmark" gorm:"foreignKey:CusGroupId"`
+	Bookmark      []CusBookmark `json:"bookmark" gorm:"foreignKey:CusGroupId;references:GSeaEngineId"`
 }
 
 // region 实现ITree 所有接口
