@@ -9,5 +9,4 @@ type CusSharePage struct {
 	PageName     string `json:"pageName"`
 	IsPassword   bool   `json:"isPassword"`
 	PagePassword string `json:"pagePassword"`
-	Serve        string
 }
