@@ -50,6 +50,12 @@ func Routers() *gin.Engine {
 		router.InitWorkflowProcessRouter(PrivateGroup)       // 工作流相关接口
 	}
 
+	CliPublicGroup := Router.Group("v1")
+	CliPublicGroup.Use(middleware.JWTAuth())
+	{
+		router.InitPublicCusSharePageRouter(CliPublicGroup)
+	}
+
 	CliPrivateGroup := Router.Group("v1")
 	CliPrivateGroup.Use(middleware.JWTAuth())
 	{
@@ -57,6 +63,7 @@ func Routers() *gin.Engine {
 		router.InitCusWebsiteRouter(CliPrivateGroup)
 		router.InitCusBookmarkRouter(CliPrivateGroup)
 		router.InitCusBookmarkGroupRouter(CliPrivateGroup)
+		router.InitCusSharePageRouter(CliPrivateGroup)
 	}
 	global.GVA_LOG.Info("router register success")
 	return Router

@@ -59,6 +59,7 @@ func MysqlTables(db *gorm.DB) {
 		model.CusBookmark{},
 		model.CusWebsite{},
 		model.CusBookmarkGroup{},
+		model.CusSharePage{},
 	)
 	if err != nil {
 		global.GVA_LOG.Error("register table failed", zap.Any("err", err))
