@@ -11,5 +11,5 @@ type CusShareGroup struct {
 	GroupName     string        `json:"groupName"`
 	GroupIcon     string        `json:"groupIcon"`
 	Sort          int           `json:"-"`
-	Bookmark      []CusBookmark `json:"bookmark" gorm:"foreignKey:CusGroupId;references:SGSeaEngineId"`
+	Bookmark      []CusBookmark `json:"bookmark" gorm:"foreignKey:ShareGroupId;references:SGSeaEngineId"`
 }

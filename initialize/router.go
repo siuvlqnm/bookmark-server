@@ -64,6 +64,7 @@ func Routers() *gin.Engine {
 		router.InitCusBookmarkRouter(CliPrivateGroup)
 		router.InitCusBookmarkGroupRouter(CliPrivateGroup)
 		router.InitCusSharePageRouter(CliPrivateGroup)
+		router.InitCusShareGroupRouter(CliPrivateGroup)
 	}
 	global.GVA_LOG.Info("router register success")
 	return Router

@@ -25,8 +25,8 @@ func CreateBookmark(c *gin.Context) {
 		return
 	}
 
-	N.CusUserId = getUserID(c)
-	N.CusWebId = w.ID
+	N.CusUserID = getUserID(c)
+	N.CusWebID = w.ID
 	if err, cbm := service.CreateBookmark(N); err != nil {
 		global.GVA_LOG.Error("添加失败", zap.Any("err", err))
 		response.FailWithMessage("添加失败", c)
@@ -73,7 +73,7 @@ func UpdateBookmark(c *gin.Context) {
 	}
 	website := &model.CusWebsite{Protocol: P.Protocol, Domain: P.Domain, Title: U.Title, Description: U.Description}
 	_, w := service.CreateWebSite(website)
-	bookmark := &model.CusBookmark{CusWebId: w.ID, Protocol: P.Protocol, Domain: w.Domain, Path: P.Path, Query: P.Query, Title: U.Title, Description: U.Description, CusTagStr: U.TagStr, CusGroupId: uint(U.CusGroupId), IsStar: U.IsStar}
+	bookmark := &model.CusBookmark{CusWebID: w.ID, Protocol: P.Protocol, Domain: w.Domain, Path: P.Path, Query: P.Query, Title: U.Title, Description: U.Description, CusTagStr: U.TagStr, CusGroupID: uint(U.CusGroupId), IsStar: U.IsStar}
 	if err = service.UpdateBookmar(U.MSeaEngineId, bookmark); err != nil {
 		global.GVA_LOG.Error("更新失败", zap.Any("err", err))
 		response.FailWithMessage("更新失败", c)
