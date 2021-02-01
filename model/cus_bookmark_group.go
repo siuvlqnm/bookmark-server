@@ -7,14 +7,14 @@ import (
 
 type CusBookmarkGroup struct {
 	global.GVA_MODEL
-	CusUserId     uint          `json:"-"`
-	GSeaEngineId  uint32        `json:"gSeaEngineId"`
-	GroupParentId int           `json:"groupParentId"`
+	CusUserID     uint          `json:"-"`
+	GSeaEngineID  uint32        `json:"gSeaEngineId"`
+	GroupParentID int           `json:"groupParentId"`
 	GroupName     string        `json:"groupName"`
 	GroupIcon     string        `json:"groupIcon"`
 	Sort          int           `json:"-"`
 	IsArchive     bool          `json:"isArchive"`
-	Bookmark      []CusBookmark `json:"bookmark" gorm:"foreignKey:CusGroupId;references:GSeaEngineId"`
+	Bookmark      []CusBookmark `json:"bookmark" gorm:"foreignKey:CusGroupID;references:GSeaEngineID"`
 }
 
 // region 实现ITree 所有接口
@@ -23,11 +23,11 @@ func (g CusBookmarkGroup) GetTitle() string {
 }
 
 func (g CusBookmarkGroup) GetId() int {
-	return int(g.GSeaEngineId)
+	return int(g.GSeaEngineID)
 }
 
 func (g CusBookmarkGroup) GetFatherId() int {
-	return g.GroupParentId
+	return g.GroupParentID
 }
 
 func (g CusBookmarkGroup) GetData() interface{} {
@@ -36,7 +36,7 @@ func (g CusBookmarkGroup) GetData() interface{} {
 
 func (g CusBookmarkGroup) IsRoot() bool {
 	// 这里通过FatherId等于0 或者 FatherId等于自身Id表示顶层根节点
-	return g.GroupParentId == 0 || uint(g.GroupParentId) == g.ID
+	return g.GroupParentID == 0 || uint(g.GroupParentID) == g.ID
 }
 
 // endregion

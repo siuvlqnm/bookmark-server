@@ -47,7 +47,7 @@ func CreateNewGroup(c *gin.Context) {
 		return
 	}
 	userId := getUserID(c)
-	group.CusUserId = userId
+	group.CusUserID = userId
 	sort := service.GetBookmarkGroupSort(userId, group)
 	group.Sort = sort + 1
 	err, cbg := service.CreateBookmarkGroup(group)
@@ -84,7 +84,7 @@ func DeleteBookmarkGroup(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
-	err := service.DeleteBookmarkGroup(d.GSeaEngineId)
+	err := service.DeleteBookmarkGroup(d.GSeaEngineID)
 	if err != nil {
 		global.GVA_LOG.Error("删除失败", zap.Any("err", err))
 		response.FailWithMessage("删除失败", c)

@@ -29,7 +29,7 @@ func GetBookmarkGroup(GSeaEngineId uint32) (err error, list interface{}) {
 	var g []model.CusBookmarkGroup
 	err = global.GVA_DB.Preload("Bookmark").Where("g_sea_engine_id = ?", GSeaEngineId).First(&g).Error
 	for i := 0; i < len(g); i++ {
-		g[0].GroupParentId = 0
+		g[0].GroupParentID = 0
 	}
 	err = global.GVA_DB.Preload("Bookmark").Order("sort ASC").Find(&allGroup).Error
 	respNodes := utils.FindRelationNode(model.CusBookmarkGroups.ConvertToINodeArray(g), model.CusBookmarkGroups.ConvertToINodeArray(allGroup))
@@ -51,11 +51,11 @@ func UpateGroupGSeaEngineId(id uint, GSeaEngineId uint32) {
 func UpdateBookmarkGroup(u *model.CusBookmarkGroup) (err error) {
 	var g *model.CusBookmarkGroup
 	upDateMap := make(map[string]interface{})
-	upDateMap["group_parent_id"] = u.GroupParentId
+	upDateMap["group_parent_id"] = u.GroupParentID
 	upDateMap["group_name"] = u.GroupName
 	upDateMap["group_icon"] = u.GroupIcon
 	upDateMap["is_archive"] = u.IsArchive
-	err = global.GVA_DB.Model(&g).Where("g_sea_engine_id = ?", u.GSeaEngineId).Updates(upDateMap).Error
+	err = global.GVA_DB.Model(&g).Where("g_sea_engine_id = ?", u.GSeaEngineID).Updates(upDateMap).Error
 	return
 }
 
@@ -91,6 +91,6 @@ func SetBookmarkGroupSort(userId uint, s request.SetGroupSort) (err error) {
 }
 
 func GetBookmarkGroupSort(userId uint, g model.CusBookmarkGroup) (sort int) {
-	global.GVA_DB.Select("sort").Where("group_parent_id = ? AND cus_user_id = ?", g.GroupParentId, userId).Order("sort DESC").Take(&g)
+	global.GVA_DB.Select("sort").Where("group_parent_id = ? AND cus_user_id = ?", g.GroupParentID, userId).Order("sort DESC").Take(&g)
 	return g.Sort
 }

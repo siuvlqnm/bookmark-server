@@ -6,7 +6,7 @@ import (
 )
 
 func InitCusShareGroupRouter(Router *gin.RouterGroup) {
-	ShareGroupRouter := Router.Group("")
+	ShareGroupRouter := Router.Group("group")
 	{
 		ShareGroupRouter.POST("new", cus.CreateShareGroup)
 		ShareGroupRouter.PUT("update", cus.UpdateShareGroup)
