@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/siuvlqnm/bookmark/global"
 	"github.com/siuvlqnm/bookmark/model"
+	"github.com/siuvlqnm/bookmark/model/request"
 	"github.com/siuvlqnm/bookmark/model/response"
 	"github.com/siuvlqnm/bookmark/service"
 	"github.com/siuvlqnm/bookmark/utils"
@@ -59,4 +60,16 @@ func DeleteShareGroup(c *gin.Context) {
 		return
 	}
 	response.OkWithMessage("删除成功", c)
+}
+
+func SetShareGroupSort(c *gin.Context) {
+	var s request.SetShareGroupSort
+	_ = c.ShouldBindJSON(&s)
+	err := service.SetShareGroupSort(getUserID(c), s)
+	if err != nil {
+		global.GVA_LOG.Error("排序失败", zap.Any("err", err))
+		response.FailWithMessage("排序失败", c)
+		return
+	}
+	response.OkWithMessage("排序成功", c)
 }

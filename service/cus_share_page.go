@@ -3,6 +3,8 @@ package service
 import (
 	"github.com/siuvlqnm/bookmark/global"
 	"github.com/siuvlqnm/bookmark/model"
+	"github.com/siuvlqnm/bookmark/model/request"
+	"gorm.io/gorm"
 )
 
 func GetSharePageSort(userId uint, s model.CusSharePage) (sort int) {
@@ -40,4 +42,15 @@ func GetSharePageList(userId uint) (err error, list interface{}) {
 	var all []model.CusSharePage
 	err = global.GVA_DB.Where("cus_user_id = ?", userId).Order("sort ASC").Find(&all).Error
 	return err, all
+}
+
+func SetSharePageSort(userId uint, s request.SetPageSort) (err error) {
+	var p model.CusSharePage
+	if s.X-s.Y > 0 {
+		err = global.GVA_DB.Model(&p).Where("sort >= ? AND sort < ? AND group_parent_id = ? AND cus_user_id = ?", s.Y, s.X, s.F, userId).UpdateColumn("sort", gorm.Expr("sort + ?", 1)).Error
+	} else {
+		err = global.GVA_DB.Model(&p).Where("sort > ? AND sort <= ? AND group_parent_id = ? AND cus_user_id = ?", s.X, s.Y, s.F, userId).UpdateColumn("sort", gorm.Expr("sort - ?", 1)).Error
+	}
+	err = global.GVA_DB.Model(&p).Where("sg_sea_engine_id = ? AND cus_user_id = ?", s.P, userId).Update("sort", s.Y).Error
+	return
 }

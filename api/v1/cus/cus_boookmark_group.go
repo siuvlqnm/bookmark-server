@@ -96,13 +96,11 @@ func DeleteBookmarkGroup(c *gin.Context) {
 func SetBookmarkGroupSort(c *gin.Context) {
 	var s request.SetGroupSort
 	_ = c.ShouldBindJSON(&s)
-	userId := getUserID(c)
-	err := service.SetBookmarkGroupSort(userId, s)
+	err := service.SetBookmarkGroupSort(getUserID(c), s)
 	if err != nil {
 		global.GVA_LOG.Error("排序失败", zap.Any("err", err))
 		response.FailWithMessage("排序失败", c)
 		return
 	}
 	response.OkWithMessage("排序成功", c)
-	return
 }

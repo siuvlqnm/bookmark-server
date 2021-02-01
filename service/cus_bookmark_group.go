@@ -82,9 +82,9 @@ func GetGroupIdByGSeaEngineId(GSeaEngineId uint32) (groupId int) {
 func SetBookmarkGroupSort(userId uint, s request.SetGroupSort) (err error) {
 	var g model.CusBookmarkGroup
 	if s.X-s.Y > 0 {
-		err = global.GVA_DB.Debug().Model(&g).Where("sort >= ? AND sort < ? AND group_parent_id = ? AND cus_user_id = ?", s.Y, s.X, s.F, userId).UpdateColumn("sort", gorm.Expr("sort + ?", 1)).Error
+		err = global.GVA_DB.Model(&g).Where("sort >= ? AND sort < ? AND group_parent_id = ? AND cus_user_id = ?", s.Y, s.X, s.F, userId).UpdateColumn("sort", gorm.Expr("sort + ?", 1)).Error
 	} else {
-		err = global.GVA_DB.Debug().Model(&g).Where("sort > ? AND sort <= ? AND group_parent_id = ? AND cus_user_id = ?", s.X, s.Y, s.F, userId).UpdateColumn("sort", gorm.Expr("sort - ?", 1)).Error
+		err = global.GVA_DB.Model(&g).Where("sort > ? AND sort <= ? AND group_parent_id = ? AND cus_user_id = ?", s.X, s.Y, s.F, userId).UpdateColumn("sort", gorm.Expr("sort - ?", 1)).Error
 	}
 	err = global.GVA_DB.Model(&g).Where("g_sea_engine_id = ? AND cus_user_id = ?", s.G, userId).Update("sort", s.Y).Error
 	return

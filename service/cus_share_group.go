@@ -3,6 +3,8 @@ package service
 import (
 	"github.com/siuvlqnm/bookmark/global"
 	"github.com/siuvlqnm/bookmark/model"
+	"github.com/siuvlqnm/bookmark/model/request"
+	"gorm.io/gorm"
 )
 
 func GetShareGroupSort(userId uint, g model.CusShareGroup) (sort int) {
@@ -34,4 +36,15 @@ func DeleteShareGroup(SGSeaEngineID uint32) (err error) {
 	var s model.CusShareGroup
 	err = global.GVA_DB.Where("sg_sea_engine_id = ?", SGSeaEngineID).Delete(&s).Error
 	return err
+}
+
+func SetShareGroupSort(userId uint, s request.SetShareGroupSort) (err error) {
+	var g model.CusShareGroup
+	if s.X-s.Y > 0 {
+		err = global.GVA_DB.Model(&g).Where("sort >= ? AND sort < ? AND group_parent_id = ? AND cus_user_id = ?", s.Y, s.X, s.F, userId).UpdateColumn("sort", gorm.Expr("sort + ?", 1)).Error
+	} else {
+		err = global.GVA_DB.Model(&g).Where("sort > ? AND sort <= ? AND group_parent_id = ? AND cus_user_id = ?", s.X, s.Y, s.F, userId).UpdateColumn("sort", gorm.Expr("sort - ?", 1)).Error
+	}
+	err = global.GVA_DB.Model(&g).Where("sg_sea_engine_id = ? AND cus_user_id = ?", s.G, userId).Update("sort", s.Y).Error
+	return
 }

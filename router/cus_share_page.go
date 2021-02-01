@@ -12,7 +12,7 @@ func InitCusSharePageRouter(Router *gin.RouterGroup) {
 		SharePageRouter.POST("new", cus.CreateSharePage)
 		SharePageRouter.PUT("update", cus.UpdateSharePage)
 		SharePageRouter.DELETE("delete", cus.DeleteSharePage)
-		SharePageRouter.PUT("sort")
+		SharePageRouter.PUT("sort", cus.SetSharePageSort)
 	}
 }
 

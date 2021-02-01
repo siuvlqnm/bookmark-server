@@ -11,5 +11,7 @@ func InitCusShareGroupRouter(Router *gin.RouterGroup) {
 		ShareGroupRouter.POST("new", cus.CreateShareGroup)
 		ShareGroupRouter.PUT("update", cus.UpdateShareGroup)
 		ShareGroupRouter.DELETE("delete", cus.DeleteShareGroup)
+		ShareGroupRouter.PUT("sort", cus.SetShareGroupSort)
+
 	}
 }
