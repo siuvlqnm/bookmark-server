@@ -23,5 +23,6 @@ var (
 	NewBookmarkGroupVerify    = Rules{"GroupName": {NotEmpty()}}
 	UpdateBookmarkGroupVerify = Rules{"GSeaEngineId": {NotEmpty()}}
 	GetWebInfoVerify          = Rules{"Url": {NotEmpty()}}
-	CreateSharePageVerify     = Rules{"pageName": {NotEmpty()}}
+	CreateSharePageVerify     = Rules{"PageName": {NotEmpty()}}
+	CreateShareGroupVerify    = Rules{"GroupName": {NotEmpty()}}
 )

@@ -56,8 +56,8 @@ func CreateNewGroup(c *gin.Context) {
 		response.FailWithMessage("添加失败", c)
 		return
 	}
-	murmur32 := utils.GetMurmur32("group:", int(cbg.ID))
-	service.UpateGroupGSeaEngineId(int(cbg.ID), murmur32)
+	murmur32 := utils.GetMurmur32("group:", cbg.ID)
+	service.UpateGroupGSeaEngineId(cbg.ID, murmur32)
 	response.OkWithMessage("添加成功", c)
 }
 

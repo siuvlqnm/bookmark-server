@@ -31,8 +31,8 @@ func CreateBookmark(c *gin.Context) {
 		global.GVA_LOG.Error("添加失败", zap.Any("err", err))
 		response.FailWithMessage("添加失败", c)
 	} else {
-		murmur32 := utils.GetMurmur32("bookmark:", int(cbm.ID))
-		service.UpateBookmarkMSeaEngineId(int(cbm.ID), murmur32)
+		murmur32 := utils.GetMurmur32("bookmark:", cbm.ID)
+		service.UpdateBookmarkMSeaEngineId(int(cbm.ID), murmur32)
 		response.OkWithMessage("添加成功", c)
 	}
 }
@@ -74,7 +74,7 @@ func UpdateBookmark(c *gin.Context) {
 	website := &model.CusWebsite{Protocol: P.Protocol, Domain: P.Domain, Title: U.Title, Description: U.Description}
 	_, w := service.CreateWebSite(website)
 	bookmark := &model.CusBookmark{CusWebID: w.ID, Protocol: P.Protocol, Domain: w.Domain, Path: P.Path, Query: P.Query, Title: U.Title, Description: U.Description, CusTagStr: U.TagStr, CusGroupID: uint(U.CusGroupId), IsStar: U.IsStar}
-	if err = service.UpdateBookmar(U.MSeaEngineId, bookmark); err != nil {
+	if err = service.UpdateBookmark(U.MSeaEngineId, bookmark); err != nil {
 		global.GVA_LOG.Error("更新失败", zap.Any("err", err))
 		response.FailWithMessage("更新失败", c)
 		return

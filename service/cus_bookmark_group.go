@@ -42,9 +42,9 @@ func CreateBookmarkGroup(group model.CusBookmarkGroup) (err error, g *model.CusB
 	return err, &group
 }
 
-func UpateGroupGSeaEngineId(id int, GSeaEngineId uint32) (err error) {
+func UpateGroupGSeaEngineId(id uint, GSeaEngineId uint32) {
 	var group model.CusBookmarkGroup
-	err = global.GVA_DB.Model(&group).Where("id = ?", id).Update("g_sea_engine_id", GSeaEngineId).Error
+	global.GVA_DB.Model(&group).Where("id = ?", id).Update("g_sea_engine_id", GSeaEngineId)
 	return
 }
 
