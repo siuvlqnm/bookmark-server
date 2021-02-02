@@ -1,10 +1,13 @@
 package service
 
 import (
+	"fmt"
 	"github.com/siuvlqnm/bookmark/global"
 	"github.com/siuvlqnm/bookmark/model"
 	"github.com/siuvlqnm/bookmark/model/request"
+	"github.com/siuvlqnm/bookmark/utils"
 	"gorm.io/gorm"
+	"reflect"
 )
 
 func GetSharePageSort(userId uint, s model.CusSharePage) (sort int) {
@@ -26,9 +29,9 @@ func UpdateSharePage(userId uint, s model.CusSharePage) (err error) {
 	return
 }
 
-func UpatePagePSeaEngineId(id int, PSeaEngineID uint32) (err error) {
+func UpatePagePSeaEngineId(id int, PSeaEngineID uint32) {
 	var s model.CusSharePage
-	err = global.GVA_DB.Model(&s).Where("id = ?", id).Update("p_sea_engine_id", PSeaEngineID).Error
+	global.GVA_DB.Model(&s).Where("id = ?", id).Update("p_sea_engine_id", PSeaEngineID)
 	return
 }
 
@@ -53,4 +56,21 @@ func SetSharePageSort(userId uint, s request.SetPageSort) (err error) {
 	}
 	err = global.GVA_DB.Model(&p).Where("sg_sea_engine_id = ? AND cus_user_id = ?", s.P, userId).Update("sort", s.Y).Error
 	return
+}
+
+func CopyBookmarkGroup(r request.CopyBookmarkGroupRequest) (list interface{}) {
+	var allGroup []model.CusBookmarkGroup
+	var g []model.CusBookmarkGroup
+	global.GVA_DB.Where("g_sea_engine_id = ?", r.CusGroupID).First(&g)
+	g[0].GroupParentID = 0
+	global.GVA_DB.Order("sort ASC").Find(&allGroup)
+	respNodes := utils.FindRelationNode(model.CusBookmarkGroups.ConvertToINodeArray(g), model.CusBookmarkGroups.ConvertToINodeArray(allGroup))
+
+	//var s []model.CusShareGroup
+	for i, _ := range respNodes {
+		index := reflect.ValueOf(respNodes).Index(i)
+		fmt.Println(index)
+	}
+
+	return respNodes
 }
