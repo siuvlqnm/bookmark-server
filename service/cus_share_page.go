@@ -1,13 +1,11 @@
 package service
 
 import (
-	"fmt"
 	"github.com/siuvlqnm/bookmark/global"
 	"github.com/siuvlqnm/bookmark/model"
 	"github.com/siuvlqnm/bookmark/model/request"
 	"github.com/siuvlqnm/bookmark/utils"
 	"gorm.io/gorm"
-	"reflect"
 )
 
 func GetSharePageSort(userId uint, s model.CusSharePage) (sort int) {
@@ -65,12 +63,25 @@ func CopyBookmarkGroup(r request.CopyBookmarkGroupRequest) (list interface{}) {
 	g[0].GroupParentID = 0
 	global.GVA_DB.Order("sort ASC").Find(&allGroup)
 	respNodes := utils.FindRelationNode(model.CusBookmarkGroups.ConvertToINodeArray(g), model.CusBookmarkGroups.ConvertToINodeArray(allGroup))
+	var t []test
 
-	//var s []model.CusShareGroup
-	for i, _ := range respNodes {
-		index := reflect.ValueOf(respNodes).Index(i)
-		fmt.Println(index)
+	for i, group := range allGroup {
+		if g[0].GSeaEngineID == uint32(group.GroupParentID) {
+			t = append(t)
+			t[i].GSeaEngineID = group.GSeaEngineID
+		}
 	}
 
+	//var s []model.CusShareGroup
+
 	return respNodes
+}
+
+type test struct {
+	CusUserID     uint
+	GSeaEngineID  uint32
+	GroupParentID int
+	GroupName     string
+	GroupIcon     string
+	Sort          int
 }
