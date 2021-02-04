@@ -20,3 +20,8 @@ type GetBookmarkList struct {
 	PageInfo
 	model.CusBookmark
 }
+
+type CopyBookmark struct {
+	MSeaEngineId uint32 `json:"mSeaEngineId"`
+	ShareGroupID uint32 `json:"shareGroupId"`
+}

@@ -114,3 +114,16 @@ func UpdateToStar(c *gin.Context) {
 	response.OkWithMessage("标星成功", c)
 	return
 }
+
+func CopyBookmark(c *gin.Context) {
+	var b request.CopyBookmark
+	_ = c.ShouldBindJSON(&b)
+
+	bkm := &model.CusBookmark{ShareGroupID: b.ShareGroupID}
+	if err := service.UpdateBookmark(b.MSeaEngineId, bkm); err != nil {
+		global.GVA_LOG.Error("复制失败", zap.Any("err", err))
+		response.FailWithMessage("复制失败", c)
+		return
+	}
+	response.OkWithMessage("复制成功", c)
+}

@@ -52,6 +52,7 @@ func UpdateBookmark(MSeaEngineId uint32, b *model.CusBookmark) (err error) {
 	upDateMap["cus_tag_str"] = b.CusTagStr
 	upDateMap["cus_group_id"] = b.CusGroupID
 	upDateMap["is_star"] = b.IsStar
+	upDateMap["share_group_id"] = b.ShareGroupID
 	err = global.GVA_DB.Model(&bookmark).Where("m_sea_engine_id = ?", MSeaEngineId).Updates(upDateMap).Error
 	return
 }
