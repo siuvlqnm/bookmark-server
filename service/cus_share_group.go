@@ -7,8 +7,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func GetShareGroupSort(userId uint, g model.CusShareGroup) (sort int) {
-	global.GVA_DB.Select("sort").Where("cus_user_id = ? AND group_parent_id = ?", userId, g.GroupParentID).Order("sort DESC").Take(&g)
+func GetShareGroupSort(userId uint, GroupParentID int, SharePageID uint32) (sort int) {
+	var g model.CusShareGroup
+	global.GVA_DB.Select("sort").Where("cus_user_id = ? AND group_parent_id = ? AND share_page_id = ?", userId, GroupParentID, SharePageID).Order("sort DESC").Take(&g)
 	return g.Sort
 }
 

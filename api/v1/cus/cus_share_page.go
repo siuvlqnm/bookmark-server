@@ -91,13 +91,3 @@ func SetSharePageSort(c *gin.Context) {
 	}
 	response.OkWithMessage("排序成功", c)
 }
-
-func CopyBookmarkGroup(c *gin.Context) {
-	var r request.CopyBookmarkGroupRequest
-	_ = c.ShouldBindJSON(&r)
-
-	list := service.CopyBookmarkGroup(r)
-	response.OkWithDetailed(response.PageResult{
-		List: list,
-	}, "获取成功", c)
-}

@@ -6,6 +6,7 @@ import (
 	"github.com/siuvlqnm/bookmark/model/request"
 	"github.com/siuvlqnm/bookmark/utils"
 	"gorm.io/gorm"
+	"reflect"
 )
 
 func GetAllBookmarkGroup(userId uint, where request.GetGetBookmarkGroup) (err error, list interface{}) {
@@ -22,14 +23,14 @@ func GetAllBookmarkGroup(userId uint, where request.GetGetBookmarkGroup) (err er
 	return
 }
 
-func GetBookmarkGroup(GSeaEngineId uint32) (err error, list interface{}) {
+func GetBookmarkGroup(GSeaEngineId uint32, userId uint) (err error, list interface{}) {
 	var allGroup []model.CusBookmarkGroup
 	var g []model.CusBookmarkGroup
-	err = global.GVA_DB.Preload("Bookmark").Where("g_sea_engine_id = ?", GSeaEngineId).First(&g).Error
+	err = global.GVA_DB.Preload("Bookmark").Where("g_sea_engine_id = ? AND cus_user_id = ?", GSeaEngineId, userId).First(&g).Error
 	for i := 0; i < len(g); i++ {
 		g[0].GroupParentID = 0
 	}
-	err = global.GVA_DB.Preload("Bookmark").Order("sort ASC").Find(&allGroup).Error
+	err = global.GVA_DB.Preload("Bookmark").Where("cus_user_id = ?", userId).Order("sort ASC").Find(&allGroup).Error
 	respNodes := utils.FindRelationNode(model.CusBookmarkGroups.ConvertToINodeArray(g), model.CusBookmarkGroups.ConvertToINodeArray(allGroup))
 	list = utils.GenerateTree(respNodes, nil)
 	return err, list
@@ -91,4 +92,31 @@ func SetBookmarkGroupSort(userId uint, s request.SetGroupSort) (err error) {
 func GetBookmarkGroupSort(userId uint, g model.CusBookmarkGroup) (sort int) {
 	global.GVA_DB.Select("sort").Where("group_parent_id = ? AND cus_user_id = ?", g.GroupParentID, userId).Order("sort DESC").Take(&g)
 	return g.Sort
+}
+
+func CopyBookmarkGroup(r request.CopyBookmarkGroupRequest, userId uint) (err error) {
+	var allGroup []model.CusBookmarkGroup
+	var g []model.CusBookmarkGroup
+	global.GVA_DB.Where("g_sea_engine_id = ? AND cus_user_id = ?", r.CusGroupID, userId).First(&g)
+	g[0].GroupParentID = 0
+	global.GVA_DB.Where("cus_user_id = ?", userId).Order("sort ASC").Find(&allGroup)
+	respNodes := utils.FindRelationNode(model.CusBookmarkGroups.ConvertToINodeArray(g), model.CusBookmarkGroups.ConvertToINodeArray(allGroup))
+
+	var sp = make([]model.CusShareGroup, len(respNodes))
+	for i, _ := range respNodes {
+		val := reflect.ValueOf(respNodes).Index(i).Elem()
+		sp[i].CusUserID = uint(val.FieldByName("CusUserID").Uint())
+		sp[i].SharePageID = r.PSeaEngineID
+		sp[i].SGSeaEngineID = uint32(val.FieldByName("GSeaEngineID").Uint())
+		sp[i].GroupParentID = int(val.FieldByName("GroupParentID").Int())
+		sp[i].GroupName = val.FieldByName("GroupName").String()
+		sp[i].GroupIcon = val.FieldByName("GroupIcon").String()
+		if sp[i].GroupParentID == 0 {
+			sp[i].Sort = GetShareGroupSort(userId, sp[i].GroupParentID, sp[i].SharePageID) + 1
+		} else {
+			sp[i].Sort = int(val.FieldByName("Sort").Int())
+		}
+	}
+	err = global.GVA_DB.Create(&sp).Error
+	return
 }

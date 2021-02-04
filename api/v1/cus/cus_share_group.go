@@ -19,7 +19,7 @@ func CreateShareGroup(c *gin.Context) {
 		return
 	}
 	userId := getUserID(c)
-	sort := service.GetShareGroupSort(userId, g)
+	sort := service.GetShareGroupSort(userId, g.GroupParentID, g.SharePageID)
 	g.CusUserID = userId
 	g.Sort = sort + 1
 	err, csg := service.CreateShareGroup(g)

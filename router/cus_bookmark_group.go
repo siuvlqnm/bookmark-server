@@ -15,5 +15,6 @@ func InitCusBookmarkGroupRouter(Router *gin.RouterGroup) {
 		BookmarkGroupRouer.DELETE("delete", cus.DeleteBookmarkGroup)
 		BookmarkGroupRouer.GET("/get/:gSeaEngineId", cus.GetBookmarkGroupWithBookmark)
 		BookmarkGroupRouer.PUT("sort", cus.SetBookmarkGroupSort)
+		BookmarkGroupRouer.POST("copyGroup", cus.CopyBookmarkGroup)
 	}
 }

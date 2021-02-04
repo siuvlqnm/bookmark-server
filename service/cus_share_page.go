@@ -4,7 +4,6 @@ import (
 	"github.com/siuvlqnm/bookmark/global"
 	"github.com/siuvlqnm/bookmark/model"
 	"github.com/siuvlqnm/bookmark/model/request"
-	"github.com/siuvlqnm/bookmark/utils"
 	"gorm.io/gorm"
 )
 
@@ -54,34 +53,4 @@ func SetSharePageSort(userId uint, s request.SetPageSort) (err error) {
 	}
 	err = global.GVA_DB.Model(&p).Where("sg_sea_engine_id = ? AND cus_user_id = ?", s.P, userId).Update("sort", s.Y).Error
 	return
-}
-
-func CopyBookmarkGroup(r request.CopyBookmarkGroupRequest) (list interface{}) {
-	var allGroup []model.CusBookmarkGroup
-	var g []model.CusBookmarkGroup
-	global.GVA_DB.Where("g_sea_engine_id = ?", r.CusGroupID).First(&g)
-	g[0].GroupParentID = 0
-	global.GVA_DB.Order("sort ASC").Find(&allGroup)
-	respNodes := utils.FindRelationNode(model.CusBookmarkGroups.ConvertToINodeArray(g), model.CusBookmarkGroups.ConvertToINodeArray(allGroup))
-	var t []test
-
-	for i, group := range allGroup {
-		if g[0].GSeaEngineID == uint32(group.GroupParentID) {
-			t = append(t)
-			t[i].GSeaEngineID = group.GSeaEngineID
-		}
-	}
-
-	//var s []model.CusShareGroup
-
-	return respNodes
-}
-
-type test struct {
-	CusUserID     uint
-	GSeaEngineID  uint32
-	GroupParentID int
-	GroupName     string
-	GroupIcon     string
-	Sort          int
 }

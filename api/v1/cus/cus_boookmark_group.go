@@ -28,7 +28,7 @@ func GetAllBookmarkGroup(c *gin.Context) {
 func GetBookmarkGroupWithBookmark(c *gin.Context) {
 	var g request.GetGetBookmarkGroup
 	_ = c.ShouldBindUri(&g)
-	err, list := service.GetBookmarkGroup(g.GSeaEngineId)
+	err, list := service.GetBookmarkGroup(g.GSeaEngineId, getUserID(c))
 	if err != nil {
 		global.GVA_LOG.Error("获取失败", zap.Any("err", err))
 		response.FailWithMessage("获取失败", c)
@@ -103,4 +103,16 @@ func SetBookmarkGroupSort(c *gin.Context) {
 		return
 	}
 	response.OkWithMessage("排序成功", c)
+}
+
+func CopyBookmarkGroup(c *gin.Context) {
+	var r request.CopyBookmarkGroupRequest
+	_ = c.ShouldBindJSON(&r)
+
+	err := service.CopyBookmarkGroup(r, getUserID(c))
+	if err != nil {
+		global.GVA_LOG.Error("复制失败", zap.Any("err", err))
+		response.FailWithMessage("复制失败", c)
+	}
+	response.OkWithMessage("复制成功", c)
 }
