@@ -4,6 +4,7 @@ import (
 	"github.com/siuvlqnm/bookmark/global"
 	"github.com/siuvlqnm/bookmark/model"
 	"github.com/siuvlqnm/bookmark/model/request"
+	"github.com/siuvlqnm/bookmark/utils"
 	"gorm.io/gorm"
 )
 
@@ -48,4 +49,11 @@ func SetShareGroupSort(userId uint, s request.SetShareGroupSort) (err error) {
 	}
 	err = global.GVA_DB.Model(&g).Where("sg_sea_engine_id = ? AND cus_user_id = ?", s.G, userId).Update("sort", s.Y).Error
 	return
+}
+
+func GetShareGroup(SharePageID uint32, userId uint) (err error, list interface{}) {
+	var g []model.CusShareGroup
+	err = global.GVA_DB.Preload("Bookmark").Where("share_page_id = ? AND cus_user_id = ?", SharePageID, userId).Order("sort ASC").Find(&g).Error
+	list = utils.GenerateTree(model.CusShareGroups.ConvertToINodeArray(g), nil)
+	return err, list
 }

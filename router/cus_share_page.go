@@ -19,6 +19,6 @@ func InitCusSharePageRouter(Router *gin.RouterGroup) {
 func InitPublicCusSharePageRouter(Router *gin.RouterGroup) {
 	PublicSharePageRouter := Router.Group("page")
 	{
-		PublicSharePageRouter.GET("/get/:pSeaEngineId")
+		PublicSharePageRouter.GET("/get/:pSeaEngineId", cus.GetSharePageGroup)
 	}
 }

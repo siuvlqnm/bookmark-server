@@ -12,3 +12,7 @@ type CopyBookmarkGroupRequest struct {
 	CusGroupID   uint32 `json:"groupId"`
 	//ShareGroupParentID uint32 `json:"shareGroupParentId"`
 }
+
+type GetSharePageGroup struct {
+	PSeaEngineID uint32 `uri:"pSeaEngineId"`
+}

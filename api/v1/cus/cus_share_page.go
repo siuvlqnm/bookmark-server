@@ -91,3 +91,17 @@ func SetSharePageSort(c *gin.Context) {
 	}
 	response.OkWithMessage("排序成功", c)
 }
+
+func GetSharePageGroup(c *gin.Context) {
+	var g request.GetSharePageGroup
+	_ = c.ShouldBindUri(&g)
+	err, list := service.GetShareGroup(g.PSeaEngineID, getUserID(c))
+	if err != nil {
+		global.GVA_LOG.Error("获取失败", zap.Any("err", err))
+		response.FailWithMessage("获取失败", c)
+		return
+	}
+	response.OkWithDetailed(response.PageResult{
+		List: list,
+	}, "获取成功", c)
+}
