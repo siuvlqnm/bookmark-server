@@ -68,6 +68,8 @@ func UpdateBookmarkGroup(c *gin.Context) {
 		response.FailWithMessage(err.Error(), c)
 		return
 	}
+	sort := service.GetBookmarkGroupSort(getUserID(c), u)
+	u.Sort = sort + 1
 	err := service.UpdateBookmarkGroup(&u)
 	if err != nil {
 		global.GVA_LOG.Error("更新失败", zap.Any("err", err))

@@ -54,6 +54,7 @@ func UpdateBookmarkGroup(u *model.CusBookmarkGroup) (err error) {
 	upDateMap["group_name"] = u.GroupName
 	upDateMap["group_icon"] = u.GroupIcon
 	upDateMap["is_archive"] = u.IsArchive
+	upDateMap["sort"] = u.Sort
 	err = global.GVA_DB.Model(&g).Where("g_sea_engine_id = ?", u.GSeaEngineID).Updates(upDateMap).Error
 	return
 }
@@ -90,7 +91,7 @@ func SetBookmarkGroupSort(userId uint, s request.SetGroupSort) (err error) {
 }
 
 func GetBookmarkGroupSort(userId uint, g model.CusBookmarkGroup) (sort int) {
-	global.GVA_DB.Select("sort").Where("group_parent_id = ? AND cus_user_id = ?", g.GroupParentID, userId).Order("sort DESC").Take(&g)
+	global.GVA_DB.Select("sort").Debug().Where("group_parent_id = ? AND cus_user_id = ?", g.GroupParentID, userId).Order("sort DESC").Take(&g)
 	return g.Sort
 }
 
