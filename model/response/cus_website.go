@@ -1,7 +1,7 @@
 package response
 
 type WebsiteResponse struct {
-	TargetUrl   string `json:"argetUrl"`
+	TargetUrl   string `json:"targetUrl"`
 	Domain      string `json:"domain"`
 	Path        string `json:"path"`
 	Query       string `json:"query"`
