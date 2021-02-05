@@ -43,7 +43,6 @@ func UpdateBookmark(MSeaEngineId uint32, b *model.CusBookmark) (err error) {
 	var bookmark *model.CusBookmark
 	upDateMap := make(map[string]interface{})
 	upDateMap["cus_web_id"] = b.CusWebID
-	upDateMap["protocol"] = b.Protocol
 	upDateMap["domain"] = b.Domain
 	upDateMap["path"] = b.Path
 	upDateMap["query"] = b.Query

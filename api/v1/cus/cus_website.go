@@ -26,19 +26,19 @@ func GetWebInfo(c *gin.Context) {
 
 	err, gws := service.GetWebSite(p.Domain)
 	if err == nil {
-		response.OkWithData(response.WebsiteResponse{TargetUrl: p.TargetUrl, Protocol: gws.Protocol, Domain: gws.Domain, Path: p.Path, Query: p.Query, Title: gws.Title, Description: gws.Description}, c)
+		response.OkWithData(response.WebsiteResponse{TargetUrl: p.TargetUrl, Domain: gws.Domain, Path: p.Path, Query: p.Query, Title: gws.Title, Description: gws.Description}, c)
 		return
 	}
 
 	if err, gwi := utils.GetWebInfo(u.Url); err != nil {
-		website := &model.CusWebsite{Protocol: p.Protocol, Domain: p.Domain}
+		website := &model.CusWebsite{Domain: p.Domain}
 		service.CreateWebSite(website)
-		response.FailWithDetailed(response.WebsiteResponse{TargetUrl: p.TargetUrl, Protocol: p.Protocol, Domain: p.Domain, Path: p.Path, Query: p.Query}, err.Error(), c)
+		response.FailWithDetailed(response.WebsiteResponse{TargetUrl: p.TargetUrl, Domain: p.Domain, Path: p.Path, Query: p.Query}, err.Error(), c)
 		return
 	} else {
-		website := &model.CusWebsite{Protocol: p.Protocol, Domain: p.Domain, Title: gwi.Title, Description: gwi.Description}
+		website := &model.CusWebsite{Domain: p.Domain, Title: gwi.Title, Description: gwi.Description}
 		service.CreateWebSite(website)
-		response.OkWithData(response.WebsiteResponse{TargetUrl: p.TargetUrl, Protocol: p.Protocol, Domain: p.Domain, Path: p.Path, Query: p.Query, Title: gwi.Title, Description: gwi.Description}, c)
+		response.OkWithData(response.WebsiteResponse{TargetUrl: p.TargetUrl, Domain: p.Domain, Path: p.Path, Query: p.Query, Title: gwi.Title, Description: gwi.Description}, c)
 		return
 	}
 }

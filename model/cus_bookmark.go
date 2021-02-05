@@ -9,7 +9,7 @@ type CusBookmark struct {
 	MSeaEngineID uint32 `json:"mSeaEngineId"`
 	CusWebID     uint   `json:"-"`
 	CusUserID    uint   `json:"-"`
-	Protocol     string `json:"protocol"`
+	TargetUrl    string `json:"targetUrl"`
 	Domain       string `json:"domain"`
 	Path         string `json:"path"`
 	Query        string `json:"query"`

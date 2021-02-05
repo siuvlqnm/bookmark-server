@@ -6,7 +6,6 @@ import (
 
 type UrlInfo struct {
 	TargetUrl string
-	Protocol  string
 	Domain    string
 	Path      string
 	Query     string
@@ -18,6 +17,6 @@ func ParseUrl(link string) (err error, I *UrlInfo) {
 		return err, I
 	}
 	targetUrl := link
-	I = &UrlInfo{TargetUrl: targetUrl, Protocol: u.Scheme, Domain: u.Host, Path: u.Path, Query: u.RawQuery}
+	I = &UrlInfo{TargetUrl: targetUrl, Domain: u.Host, Path: u.Path, Query: u.RawQuery}
 	return err, I
 }
