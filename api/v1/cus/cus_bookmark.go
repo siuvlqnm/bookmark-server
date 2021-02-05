@@ -80,7 +80,6 @@ func UpdateBookmark(c *gin.Context) {
 		return
 	}
 	response.OkWithMessage("更新成功", c)
-	return
 }
 
 func DeleteBookmark(c *gin.Context) {
@@ -96,7 +95,6 @@ func DeleteBookmark(c *gin.Context) {
 		return
 	}
 	response.OkWithMessage("删除成功", c)
-	return
 }
 
 func UpdateToStar(c *gin.Context) {
@@ -112,7 +110,6 @@ func UpdateToStar(c *gin.Context) {
 		return
 	}
 	response.OkWithMessage("标星成功", c)
-	return
 }
 
 func CopyBookmark(c *gin.Context) {
