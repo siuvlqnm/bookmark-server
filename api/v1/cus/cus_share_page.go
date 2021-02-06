@@ -37,14 +37,12 @@ func CreateSharePage(c *gin.Context) {
 	if s.IsPassword {
 		s.PagePassword = utils.MD5V([]byte(s.PagePassword))
 	}
-	err, csp := service.CreateSharePage(s)
+	err := service.CreateSharePage(s)
 	if err != nil {
 		global.GVA_LOG.Error("添加失败", zap.Any("err", err))
 		response.FailWithMessage("添加失败", c)
 		return
 	}
-	murmur32 := utils.GetMurmur32("sharePage:", csp.ID)
-	service.UpatePagePSeaEngineId(csp.ID, murmur32)
 	response.OkWithMessage("添加成功", c)
 }
 

@@ -22,14 +22,12 @@ func CreateShareGroup(c *gin.Context) {
 	sort := service.GetShareGroupSort(userId, g.GroupParentID, g.SharePageID)
 	g.CusUserID = userId
 	g.Sort = sort + 1
-	err, csg := service.CreateShareGroup(g)
+	err := service.CreateShareGroup(g)
 	if err != nil {
 		global.GVA_LOG.Error("添加失败", zap.Any("err", err))
 		response.FailWithMessage("添加失败", c)
 		return
 	}
-	murmur32 := utils.GetMurmur32("shareGroup:", csg.ID)
-	service.UpdateShareGroupSGSeaEngineID(csg.ID, murmur32)
 	response.OkWithMessage("添加成功", c)
 }
 

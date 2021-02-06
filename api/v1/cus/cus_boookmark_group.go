@@ -50,14 +50,12 @@ func CreateNewGroup(c *gin.Context) {
 	group.CusUserID = userId
 	sort := service.GetBookmarkGroupSort(userId, group)
 	group.Sort = sort + 1
-	err, cbg := service.CreateBookmarkGroup(group)
+	err := service.CreateBookmarkGroup(group)
 	if err != nil {
 		global.GVA_LOG.Error("添加失败", zap.Any("err", err))
 		response.FailWithMessage("添加失败", c)
 		return
 	}
-	murmur32 := utils.GetMurmur32("group:", cbg.ID)
-	service.UpateGroupGSeaEngineId(cbg.ID, murmur32)
 	response.OkWithMessage("添加成功", c)
 }
 

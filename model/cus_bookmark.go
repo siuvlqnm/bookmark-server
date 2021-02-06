@@ -2,6 +2,8 @@ package model
 
 import (
 	"github.com/siuvlqnm/bookmark/global"
+	"github.com/siuvlqnm/bookmark/utils"
+	"gorm.io/gorm"
 )
 
 type CusBookmark struct {
@@ -20,4 +22,9 @@ type CusBookmark struct {
 	ShareGroupID uint32 `json:"shareGroupId"`
 	CusTagStr    string `json:"cusTagStr"`
 	IsStar       uint8  `json:"isStar"`
+}
+
+func (b *CusBookmark) AfterCreate(tx *gorm.DB) (err error) {
+	err = tx.Model(b).Update("m_sea_engine_id", utils.GetMurmur32("bkm:", b.ID)).Error
+	return err
 }

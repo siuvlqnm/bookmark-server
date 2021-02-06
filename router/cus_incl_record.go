@@ -8,7 +8,7 @@ import (
 func InitCusInclRecordRouter(Router *gin.RouterGroup) {
 	InclRecordRouter := Router.Group("incl")
 	{
-		InclRecordRouter.GET("get", cus.GetSharePageInclRecord)
+		InclRecordRouter.POST("get", cus.GetSharePageInclRecord)
 		InclRecordRouter.DELETE("delete", cus.DeleteInclRecord)
 		InclRecordRouter.PUT("audit", cus.AuditInclRecord)
 	}

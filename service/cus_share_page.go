@@ -18,9 +18,9 @@ func GetSharePageUserIDByPSeaEngineID(PSeaEngineID uint32) (userId uint) {
 	return p.CusUserID
 }
 
-func CreateSharePage(s model.CusSharePage) (err error, page model.CusSharePage) {
+func CreateSharePage(s model.CusSharePage) (err error) {
 	err = global.GVA_DB.Create(&s).Error
-	return err, s
+	return
 }
 
 func UpdateSharePage(userId uint, s model.CusSharePage) (err error) {

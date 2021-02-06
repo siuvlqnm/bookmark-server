@@ -6,9 +6,9 @@ import (
 	"github.com/siuvlqnm/bookmark/model/request"
 )
 
-func CreateBookmark(b model.CusBookmark) (err error, bookmark *model.CusBookmark) {
+func CreateBookmark(b model.CusBookmark) (err error) {
 	err = global.GVA_DB.Create(&b).Error
-	return err, &b
+	return err
 }
 
 func GetBookmarkList(userId uint, where model.CusBookmark, info request.PageInfo) (err error, list interface{}, total int64) {

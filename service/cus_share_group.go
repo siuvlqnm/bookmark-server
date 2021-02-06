@@ -14,9 +14,9 @@ func GetShareGroupSort(userId uint, GroupParentID int, SharePageID uint32) (sort
 	return g.Sort
 }
 
-func CreateShareGroup(g model.CusShareGroup) (err error, sg *model.CusShareGroup) {
+func CreateShareGroup(g model.CusShareGroup) (err error) {
 	err = global.GVA_DB.Create(&g).Error
-	return err, &g
+	return
 }
 
 func UpdateShareGroupSGSeaEngineID(id uint, SGSeaEngineID uint32) {

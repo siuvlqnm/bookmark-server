@@ -3,6 +3,7 @@ package model
 import (
 	"github.com/siuvlqnm/bookmark/global"
 	"github.com/siuvlqnm/bookmark/utils"
+	"gorm.io/gorm"
 )
 
 type CusBookmarkGroup struct {
@@ -15,6 +16,11 @@ type CusBookmarkGroup struct {
 	Sort          int           `json:"-"`
 	IsArchive     bool          `json:"isArchive"`
 	Bookmark      []CusBookmark `json:"bookmark" gorm:"foreignKey:CusGroupID;references:GSeaEngineID"`
+}
+
+func (g *CusBookmarkGroup) AfterCreate(tx *gorm.DB) (err error) {
+	err = tx.Model(g).Update("g_sea_engine_id", utils.GetMurmur32("bkmGrp:", g.ID)).Error
+	return err
 }
 
 // region 实现ITree 所有接口

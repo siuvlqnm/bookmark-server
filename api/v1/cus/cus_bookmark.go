@@ -27,14 +27,11 @@ func CreateBookmark(c *gin.Context) {
 
 	N.CusUserID = getUserID(c)
 	N.CusWebID = w.ID
-	if err, cbm := service.CreateBookmark(N); err != nil {
+	if err := service.CreateBookmark(N); err != nil {
 		global.GVA_LOG.Error("添加失败", zap.Any("err", err))
 		response.FailWithMessage("添加失败", c)
-	} else {
-		murmur32 := utils.GetMurmur32("bookmark:", cbm.ID)
-		service.UpdateBookmarkMSeaEngineId(int(cbm.ID), murmur32)
-		response.OkWithMessage("添加成功", c)
 	}
+	response.OkWithMessage("添加成功", c)
 }
 
 func GetBookmarkList(c *gin.Context) {

@@ -36,9 +36,9 @@ func GetBookmarkGroup(GSeaEngineId uint32, userId uint) (err error, list interfa
 	return err, list
 }
 
-func CreateBookmarkGroup(group model.CusBookmarkGroup) (err error, g *model.CusBookmarkGroup) {
+func CreateBookmarkGroup(group model.CusBookmarkGroup) (err error) {
 	err = global.GVA_DB.Create(&group).Error
-	return err, &group
+	return err
 }
 
 func UpateGroupGSeaEngineId(id uint, GSeaEngineId uint32) {

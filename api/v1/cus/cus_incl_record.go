@@ -52,21 +52,18 @@ func AuditInclRecord(c *gin.Context) {
 	if i.IsAccept == 1 {
 		_, w := service.GetWebSite(i.Domain)
 		b := model.CusBookmark{CusWebID: w.ID, CusUserID: service.GetSharePageUserIDByPSeaEngineID(i.SharePageID), TargetUrl: i.TargetUrl, Domain: i.Domain, Path: i.Path, Query: i.Query, Title: i.Title, Description: i.Description, ShareGroupID: i.ShareGroupID}
-		if err, cbm := service.CreateBookmark(b); err != nil {
+		if err := service.CreateBookmark(b); err != nil {
 			global.GVA_LOG.Error("审核失败", zap.Any("err", err))
 			response.FailWithMessage("审核失败", c)
 			return
-		} else {
-			murmur32 := utils.GetMurmur32("bookmark:", cbm.ID)
-			service.UpdateBookmarkMSeaEngineId(int(cbm.ID), murmur32)
-			response.OkWithMessage("审核成功", c)
-			return
 		}
+		response.OkWithMessage("审核成功", c)
 	}
 }
 
 func GetSharePageInclRecord(c *gin.Context) {
 	var i model.CusInclRecord
+	_ = c.ShouldBindJSON(&i)
 	err, list := service.GetInclRecordByPageID(i.SharePageID)
 	if err != nil {
 		global.GVA_LOG.Error("获取失败", zap.Any("err", err))
