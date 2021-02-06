@@ -32,7 +32,15 @@ func UpdateInclRecord(c *gin.Context) {
 }
 
 func DeleteInclRecord(c *gin.Context) {
+	var i model.CusInclRecord
 
+	err := service.DeleteInclRecord(i)
+	if err != nil {
+		global.GVA_LOG.Error("删除失败", zap.Any("err", err))
+		response.FailWithMessage("删除失败", c)
+		return
+	}
+	response.OkWithMessage("删除成功", c)
 }
 
 func AuditInclRecord(c *gin.Context) {
@@ -49,13 +57,13 @@ func AuditInclRecord(c *gin.Context) {
 		_, w := service.GetWebSite(i.Domain)
 		b := model.CusBookmark{CusWebID: w.ID, CusUserID: service.GetSharePageUserIDByPSeaEngineID(i.SharePageID), TargetUrl: i.TargetUrl, Domain: i.Domain, Path: i.Path, Query: i.Query, Title: i.Title, Description: i.Description, ShareGroupID: i.ShareGroupID}
 		if err, cbm := service.CreateBookmark(b); err != nil {
-			global.GVA_LOG.Error("添加失败", zap.Any("err", err))
-			response.FailWithMessage("添加失败", c)
+			global.GVA_LOG.Error("审核失败", zap.Any("err", err))
+			response.FailWithMessage("审核失败", c)
 			return
 		} else {
 			murmur32 := utils.GetMurmur32("bookmark:", cbm.ID)
 			service.UpdateBookmarkMSeaEngineId(int(cbm.ID), murmur32)
-			response.OkWithMessage("添加成功", c)
+			response.OkWithMessage("审核成功", c)
 			return
 		}
 	}

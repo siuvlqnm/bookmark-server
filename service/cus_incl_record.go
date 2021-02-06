@@ -14,3 +14,8 @@ func UpdateInclRecord(i model.CusInclRecord) (err error) {
 	err = global.GVA_DB.Updates(&i).Error
 	return
 }
+
+func DeleteInclRecord(i model.CusInclRecord) (err error) {
+	err = global.GVA_DB.Delete(&i).Error
+	return
+}
