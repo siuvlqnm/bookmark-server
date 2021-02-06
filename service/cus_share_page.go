@@ -32,12 +32,6 @@ func UpdateSharePage(userId uint, s model.CusSharePage) (err error) {
 	return
 }
 
-func UpatePagePSeaEngineId(id uint, PSeaEngineID uint32) {
-	var s model.CusSharePage
-	global.GVA_DB.Model(&s).Where("id = ?", id).Update("p_sea_engine_id", PSeaEngineID)
-	return
-}
-
 func DeleteSharePage(PSeaEngineID uint32) (err error) {
 	var s model.CusSharePage
 	err = global.GVA_DB.Where("p_sea_engine_id = ?", PSeaEngineID).Delete(&s).Error

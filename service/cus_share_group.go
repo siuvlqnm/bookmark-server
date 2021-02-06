@@ -19,12 +19,6 @@ func CreateShareGroup(g model.CusShareGroup) (err error) {
 	return
 }
 
-func UpdateShareGroupSGSeaEngineID(id uint, SGSeaEngineID uint32) {
-	var g model.CusShareGroup
-	global.GVA_DB.Model(&g).Where("id = ?", id).Update("sg_sea_engine_id", SGSeaEngineID)
-	return
-}
-
 func UpdateShareGroup(userId uint, g model.CusShareGroup) (err error) {
 	db := global.GVA_DB.Model(&g).Where("cus_user_id = ? AND sg_sea_engine_id = ?", userId, g.SGSeaEngineID)
 	if g.GroupName != "" {

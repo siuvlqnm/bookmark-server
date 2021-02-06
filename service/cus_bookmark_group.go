@@ -41,12 +41,6 @@ func CreateBookmarkGroup(group model.CusBookmarkGroup) (err error) {
 	return err
 }
 
-func UpateGroupGSeaEngineId(id uint, GSeaEngineId uint32) {
-	var group model.CusBookmarkGroup
-	global.GVA_DB.Model(&group).Where("id = ?", id).Update("g_sea_engine_id", GSeaEngineId)
-	return
-}
-
 func UpdateBookmarkGroup(u *model.CusBookmarkGroup) (err error) {
 	var g *model.CusBookmarkGroup
 	upDateMap := make(map[string]interface{})
