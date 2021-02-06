@@ -25,4 +25,5 @@ var (
 	GetWebInfoVerify          = Rules{"Url": {NotEmpty()}}
 	CreateSharePageVerify     = Rules{"PageName": {NotEmpty()}}
 	CreateShareGroupVerify    = Rules{"GroupName": {NotEmpty()}}
+	CreateInclRecordVerify    = Rules{"SharePageID": {NotEmpty()}, "ShareGroupID": {NotEmpty()}, "TargetUrl": {NotEmpty()}}
 )

@@ -54,6 +54,7 @@ func Routers() *gin.Engine {
 	CliPublicGroup.Use(middleware.JWTAuth())
 	{
 		router.InitPublicCusSharePageRouter(CliPublicGroup)
+		router.InitPublicCusInclRecordRouter(CliPublicGroup)
 	}
 
 	CliPrivateGroup := Router.Group("v1")
@@ -65,6 +66,7 @@ func Routers() *gin.Engine {
 		router.InitCusBookmarkGroupRouter(CliPrivateGroup)
 		router.InitCusSharePageRouter(CliPrivateGroup)
 		router.InitCusShareGroupRouter(CliPrivateGroup)
+		router.InitCusInclRecordRouter(CliPrivateGroup)
 	}
 	global.GVA_LOG.Info("router register success")
 	return Router

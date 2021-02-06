@@ -44,7 +44,7 @@ func CreateSharePage(c *gin.Context) {
 		return
 	}
 	murmur32 := utils.GetMurmur32("sharePage:", csp.ID)
-	service.UpatePagePSeaEngineId(int(csp.ID), murmur32)
+	service.UpatePagePSeaEngineId(csp.ID, murmur32)
 	response.OkWithMessage("添加成功", c)
 }
 

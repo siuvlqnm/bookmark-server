@@ -12,6 +12,12 @@ func GetSharePageSort(userId uint, s model.CusSharePage) (sort int) {
 	return s.Sort
 }
 
+func GetSharePageUserIDByPSeaEngineID(PSeaEngineID uint32) (userId uint) {
+	var p model.CusSharePage
+	global.GVA_DB.Select("cus_user_id").Where("p_sea_engine_id = ?", PSeaEngineID).Take(&p)
+	return p.CusUserID
+}
+
 func CreateSharePage(s model.CusSharePage) (err error, page model.CusSharePage) {
 	err = global.GVA_DB.Create(&s).Error
 	return err, s
@@ -26,7 +32,7 @@ func UpdateSharePage(userId uint, s model.CusSharePage) (err error) {
 	return
 }
 
-func UpatePagePSeaEngineId(id int, PSeaEngineID uint32) {
+func UpatePagePSeaEngineId(id uint, PSeaEngineID uint32) {
 	var s model.CusSharePage
 	global.GVA_DB.Model(&s).Where("id = ?", id).Update("p_sea_engine_id", PSeaEngineID)
 	return
