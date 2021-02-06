@@ -27,10 +27,6 @@ func CreateInclRecord(c *gin.Context) {
 	response.OkWithMessage("提交成功", c)
 }
 
-func UpdateInclRecord(c *gin.Context) {
-
-}
-
 func DeleteInclRecord(c *gin.Context) {
 	var i model.CusInclRecord
 
@@ -67,4 +63,17 @@ func AuditInclRecord(c *gin.Context) {
 			return
 		}
 	}
+}
+
+func GetSharePageInclRecord(c *gin.Context) {
+	var i model.CusInclRecord
+	err, list := service.GetInclRecordByPageID(i.SharePageID)
+	if err != nil {
+		global.GVA_LOG.Error("获取失败", zap.Any("err", err))
+		response.FailWithMessage("获取失败", c)
+		return
+	}
+	response.OkWithDetailed(response.PageResult{
+		List: list,
+	}, "获取成功", c)
 }
